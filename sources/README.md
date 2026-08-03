@@ -16,6 +16,8 @@
 - Actuators setup: https://github.com/openpnp/openpnp/wiki/Setup-and-Calibration_Actuators
 - GcodeDriver: https://github.com/openpnp/openpnp/wiki/GcodeDriver
 - Schultz feeders: https://github.com/openpnp/openpnp/wiki/SchultzFeeder-and-SlotSchultzFeeder
+- Nozzle tip calibration: https://github.com/openpnp/openpnp/wiki/Nozzle-Tip-Calibration-Setup
+- Nozzle tip background calibration: https://github.com/openpnp/openpnp/wiki/Nozzle-Tip-Background-Calibration
 
 ### OpenPnP source files referenced conceptually
 
@@ -24,12 +26,25 @@
 - `src/main/java/org/openpnp/machine/reference/feeder/wizards/SchultzFeederConfigurationWizard.java`
 - `src/main/java/org/openpnp/machine/reference/feeder/wizards/SlotSchultzFeederConfigurationWizard.java`
 - `src/main/java/org/openpnp/machine/reference/ReferenceMachine.java`
+- `src/main/java/org/openpnp/machine/reference/ReferenceNozzleTip.java`
+- `src/main/java/org/openpnp/machine/reference/ReferenceNozzleTipCalibration.java`
+- `src/main/java/org/openpnp/machine/reference/solutions/NozzleTipSolutions.java`
+- `src/main/java/org/openpnp/machine/reference/solutions/VisionSolutions.java`
+- `src/main/java/org/openpnp/machine/reference/wizards/ReferenceNozzleTipCalibrationWizard.java`
 
 ### SchultzController project
 
 - Repository: https://github.com/bilsef/SchultzController
 - Root README: https://github.com/bilsef/SchultzController/blob/master/README.md
 - Scripts README: https://github.com/bilsef/SchultzController/blob/master/Scripts/README.md
+
+### Eilbek SchultzController project
+
+- Repository: https://github.com/eilbek-research/er-schultzcontroller
+- Root README: https://github.com/eilbek-research/er-schultzcontroller/blob/main/README.md
+- Hardware README: https://github.com/eilbek-research/er-schultzcontroller/blob/main/Hardware/README.md
+- SchultzController2 design notes: https://github.com/eilbek-research/er-schultzcontroller/blob/main/docs/SchultzController2.adoc
+- Feeder notes: https://github.com/eilbek-research/er-schultzcontroller/blob/main/docs/Schultz%20feeders.adoc
 
 ### SchultzController source files referenced conceptually
 
@@ -43,11 +58,30 @@
 - `Scripts/SchultzFeeders/LoadFeederSlots.js`
 - `Scripts/SchultzFeeders/UnloadAllSlots.js`
 
+### Eilbek SchultzController source files referenced conceptually
+
+- `Firmware/src/main.cpp`
+- `Firmware/src/SchultzController.cpp`
+- `Firmware/src/SchultzFeeder.cpp`
+- `Firmware/src/SchultzFeederGen2.cpp`
+- `Firmware/include/mcodes.h`
+- `Firmware/include/feeders.h`
+- `Firmware/include/SchultzController.h`
+- `docs/notes/Lab notes JP.md`
+
+### Public Juki nozzle references
+
+- Genie Kobayashi Juki nozzle changer: https://github.com/geniekobayashi/juki_nozzle_changer
+- crono2250 four-Juki-nozzle head: https://github.com/crono2250/mounter_ZCaxis_head_4juki-nozzles
+- Karl Ekdahl nozzle changer inspiration video: https://vimeo.com/144454866
+
 ## Important evidence points
 
 - OpenPnP officially documents `SchultzFeeder` and `SlotSchultzFeeder` as support for Siemens Siplace Schultz electric feeders.
 - The dedicated OpenPnP Schultz feeder wiki page documents the required actuators and a sample GcodeDriver mapping.
 - SchultzController firmware exposes matching M-code commands for feeder control and status reads.
+- Eilbek's repository explicitly states that it builds on Bilsef's original SchultzController and adds updated hardware, Gen 2 feeder support, and improved error handling.
+- OpenPnP's nozzle-tip calibration guidance contains a dedicated Juki-nozzle section, and OpenPnP source explicitly recommends `BrightnessAndKeyColor` for green Juki-style nozzles.
 - The OpenPnP source confirms that these feeder types and configuration wizards are part of the main application, not an external plugin.
 
 ## Gaps still worth validating on hardware

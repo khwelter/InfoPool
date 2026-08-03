@@ -8,6 +8,10 @@ Upstream repo:
 
 - https://github.com/bilsef/SchultzController
 
+Related newer public fork / continuation:
+
+- https://github.com/eilbek-research/er-schultzcontroller
+
 The upstream README describes it as:
 
 - a controller board that distributes power to the feeders
@@ -25,6 +29,42 @@ It fits OpenPnP's native architecture almost exactly:
 - GcodeDriver maps those M-codes to actuators
 
 So the integration does not require a custom Java feeder plugin.
+
+## Bilsef and Eilbek
+
+The Eilbek Research controller effort is explicitly based on Bilsef's original repository. Their README states that it is a fork of Bilsef's SchultzController and that their work adds updated hardware, Gen 2 feeder support, and fuller error-code handling aimed at better OpenPnP behavior.
+
+That makes the relationship straightforward:
+
+- Bilsef is the original practical OpenPnP-oriented SchultzController project.
+- Eilbek is a newer, more ambitious continuation that keeps OpenPnP compatibility in view while reverse-engineering more feeder variants.
+
+## Comparison: Bilsef vs Eilbek
+
+This comparison is limited to what is directly visible in the public repositories.
+
+| Topic | Bilsef `SchultzController` | Eilbek `er-schultzcontroller` |
+|---|---|---|
+| Repository role | Original controller project referenced by the official OpenPnP Schultz feeder wiki | Explicit fork / continuation of Bilsef's work |
+| OpenPnP relationship | This is the controller directly linked from the OpenPnP Schultz feeder wiki page | README says it is mainly designed for OpenPnP integration and keeps G-code USB control |
+| Hardware docs | Basic hardware description in root README | Keeps the same board concept and adds more explicit hardware build documentation, including JLCPCB assembly notes |
+| Firmware scope | Established controller command set used by the OpenPnP wiki sample config | New `SchultzController2` direction with documented controller features, feeder scanning, feeder type support, and protocol-analysis docs |
+| M-code surface | Legacy commands centered on `M600`, `M601`, `M602`, `M603`, `M608`, `M610`, `M623`, `M628`, `M630`, `M640`, `M615`, `M650`, `M651` | Adds controller-level features such as `M500` scan, `M501` connected feeders, `M611` feeder type, `M612` feeder info, `M620` open shutter, `M621` advance, `M641` set feeder type, `M999` passthrough |
+| Feeder generations | Public repo and OpenPnP docs align around the original Schultz feeder use case | README explicitly claims added support for Gen 2 feeders |
+| Protocol / research depth | Practical controller implementation with OpenPnP scripts | Much deeper reverse-engineering and protocol documentation, including firmware analysis, feeder type tables, lab notes, and EEPROM notes |
+| OpenPnP compatibility strategy | Native match to the official OpenPnP wiki sample driver configuration | Intentionally keeps the controller firmware info string compatible with the original OpenPnP expectation while extending internals |
+| Scripts | Includes the classic `CreateSchultzFeeders`, `AlignFeeders`, `LoadFeederSlots`, `UnloadAllSlots` scripts | Carries the same OpenPnP script family forward |
+
+## Practical recommendation
+
+If your goal is the most directly documented OpenPnP setup, Bilsef is still the cleanest baseline because the official OpenPnP Schultz feeder page was written around it.
+
+If your goal is broader feeder research, Gen 2 support, or a controller that documents more of the Siemens feeder protocol, Eilbek is the richer technical source.
+
+That suggests a pragmatic split:
+
+- start from Bilsef-style OpenPnP actuator and GcodeDriver mapping
+- consult Eilbek when you need broader feeder-family support, protocol details, or clues about advanced error handling
 
 ## The most important OpenPnP design decision
 
@@ -129,6 +169,27 @@ From the firmware source:
 
 The OpenPnP wiki uses the subset needed for normal feeder operation.
 
+## Eilbek controller command map
+
+The Eilbek firmware exposes a somewhat different higher-level command surface:
+
+- `M115`: get controller info
+- `M500`: scan for feeders
+- `M501`: list connected feeders
+- `M600`: pre-pick
+- `M601`: post-pick
+- `M604`: close shutter
+- `M610`: get feeder ID
+- `M611`: get feeder type
+- `M612`: get feeder info
+- `M620`: open shutter
+- `M621`: advance tape
+- `M640`: set feeder ID
+- `M641`: set feeder type
+- `M999`: passthrough
+
+That means Eilbek is not just a drop-in rename of Bilsef. It is trying to build a more explicit controller abstraction around feeder discovery and feeder categories.
+
 ## Firmware-grounded controller behavior
 
 Important controller facts from the SchultzController firmware:
@@ -139,6 +200,15 @@ Important controller facts from the SchultzController firmware:
 - success responses start with `ok`
 - failure responses start with `error`
 - feeder numbers are validated against `0..39`
+
+For the Eilbek controller, several of these compatibility points intentionally remain aligned with the original controller:
+
+- controller serial is still `115200`
+- feeder-side serial is still `9600`
+- success and failure still use `ok` / `error`
+- the firmware info string is intentionally kept compatible with the original SchultzController because their code comments state that OpenPnP compatibility is a goal
+
+The difference is that Eilbek adds richer controller-side discovery, feeder typing, and structured status output behind that compatibility layer.
 
 ## OpenPnP GcodeDriver configuration pattern
 
@@ -317,10 +387,13 @@ Items to verify on a real machine before trusting production:
 
 - feeder-number to physical-port mapping
 - exact regex matches for your firmware build
+- whether you are targeting Bilsef command semantics or Eilbek command semantics
 - whether your setup needs `PostPick` or `AdvanceIgnoreError` during early tuning
 - shutter behavior and cover-tape tension
 - slot pitch, origin, and rotation assumptions used by any helper scripts
 - whether your controller build is 4-pin or 96-pin and wired consistently with the selected firmware board mode
+
+For Eilbek specifically, also verify whether the OpenPnP side is still using the legacy Bilsef actuator contract, or whether you want to exploit Eilbek-only capabilities such as feeder type discovery. The public repo shows the controller support, but that does not automatically mean OpenPnP's built-in Schultz feeder classes already consume those newer commands.
 
 ## Bottom line
 

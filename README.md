@@ -7,6 +7,7 @@ This repository collects source-grounded notes about OpenPnP with an emphasis on
 - [OpenPnP overview](openpnp/README.md)
 - [Siemens S-feeders and OpenPnP support](siemens-s-feeders/README.md)
 - [SchultzController and OpenPnP configuration](schultzcontroller/README.md)
+- [Juki or "Yuki" nozzle vision notes](juki-yuki-nozzles/README.md)
 - [Source index](sources/README.md)
 
 ## Focus
