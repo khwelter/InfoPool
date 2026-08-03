@@ -1,10 +1,4 @@
-# Juki or "Yuki" Nozzle Vision Notes
-
-## Naming note
-
-I did not find strong public OpenPnP references for `Yuki` nozzles as a separate category. The public references I could verify are for `Juki` nozzles, especially Juki 50x style nozzles.
-
-If `Yuki` was intended literally, treat the rest of this page as a likely spelling-adjacent result, not a guarantee. If you meant `Juki`, this is the relevant material.
+# Juki Nozzle Vision Notes
 
 ## What OpenPnP officially documents for Juki nozzles
 
