@@ -221,22 +221,22 @@ And actuator command mappings like:
 
 ```xml
 <command head-mountable-id="actSchultzGetID" type="ACTUATOR_READ_COMMAND">
-   <text><![CDATA[M610N{IntegerValue}]]></text>
+   <text><![CDATA[M610 N{IntegerValue}]]></text>
 </command>
 <command head-mountable-id="actSchultzGetID" type="ACTUATOR_READ_REGEX">
    <text><![CDATA[^ok.*ID: (?<Value>.+)]]></text>
 </command>
 
 <command head-mountable-id="actSchultzPrePick" type="ACTUATE_DOUBLE_COMMAND">
-   <text><![CDATA[M600N{IntegerValue}]]></text>
+   <text><![CDATA[M600 N{IntegerValue}]]></text>
 </command>
 
 <command head-mountable-id="actSchultzPostPick" type="ACTUATE_DOUBLE_COMMAND">
-   <text><![CDATA[M601N{IntegerValue}]]></text>
+   <text><![CDATA[M601 N{IntegerValue}]]></text>
 </command>
 
 <command head-mountable-id="actSchultzAdvIgnorErr" type="ACTUATE_DOUBLE_COMMAND">
-   <text><![CDATA[M601N{IntegerValue}X1]]></text>
+   <text><![CDATA[M601 N{IntegerValue} X1]]></text>
 </command>
 ```
 
