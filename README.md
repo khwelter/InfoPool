@@ -1,5 +1,9 @@
 # OpenPnP Info Pool
 
+> [!WARNING]
+> **All contant of this InfoPool is AI generated and AI researched.**
+
+
 This repository collects source-grounded notes about OpenPnP with an emphasis on Siemens Siplace Schultz electric feeders and the SchultzController ecosystem.
 
 ## Documents
