@@ -1,5 +1,7 @@
 # Juki Nozzle Vision Notes
 
+- PDF references: see the `rsrcs/` folder for collected PDFs (example in this workspace: `sources/Juki - Nozzle Catalogue-Rev-C3.pdf`)
+
 ## What OpenPnP officially documents for Juki nozzles
 
 OpenPnP has explicit nozzle-tip calibration guidance for Juki nozzles.
